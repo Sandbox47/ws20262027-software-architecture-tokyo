@@ -29,9 +29,9 @@
 % ---------------------------------------------------------------------------
 % Project information
 % ---------------------------------------------------------------------------
-\newcommand{\projecttitle}{\todo{Project Title}}
-\newcommand{\teamname}{\todo{Team name}}
-\newcommand{\teammembers}{\todo{Name 1, Name 2, Name 3, Name 4}}
+\newcommand{\projecttitle}{PolyVote: A Declarative, Verifiable E-Voting Architecture}
+\newcommand{\teamname}{Tokyo}
+\newcommand{\teammembers}{David Enoghama, Franka Heger, Clemens Korneli, Patrick Ng, Felix Roehr, Jerome Stephan}
 
 \begin{document}
 
@@ -43,42 +43,33 @@
 
 % ---------------------------------------------------------------------------
 \pibapart{Problem}
-% What is wrong, missing, or hard today, and for whom?
-% Describe the situation today, not your solution. Name the system, the users,
-% and the concrete pain. Quantify where possible.
-\todo{Who is affected, and in which context? What exactly goes wrong or is
-missing? Why do existing solutions not solve it sufficiently?}
+Organizations running digital elections (university committees, student unions, associations) face a trade-off between \textbf{ballot flexibility} and \textbf{cryptographic verifiability}. Practical e-voting systems (\emph{Helios}, \emph{Belenios}) enforce rigid formats supporting only 1-of-$N$ or approval voting, while flexible research frameworks (\emph{Kryvos}, \emph{Ordinos}) lack usable implementations. Survey tools like \emph{LimeSurvey} let officials build custom GUI ballots, but lack verifiability and require blind trust in a central admin.
 
 % ---------------------------------------------------------------------------
 \pibapart{Idea}
-% What is your proposed solution, and what does its architecture look like?
-% The architecture is the heart of your idea.
-\todo{Main components and their interaction. Architectural style or patterns
-and why. Driving quality attributes. Out of scope: \ldots}
+We propose \textbf{PolyVote}, an e-voting architecture combining a \textbf{No-Code Election Studio GUI} and a \textbf{Declarative Election-as-Code Compiler Pipeline} around an encapsulated General-Purpose Zero-Knowledge Proof (GPZKP) adapter. Officials visually configure custom voting schemes (e.g., Ranked-Choice, Quadratic, or Cumulative Voting) in the Studio GUI, emitting a declarative JSON/DSL specification. Our Compiler Pipeline translates this specification into three synchronized artifacts: (1)~a dynamic \emph{Voter Ballot UI} schema, (2)~constraints for an abstract \emph{GPZKP Prover/Verifier Adapter}, and (3)~accumulation rules for the \emph{Voting Authority Service}. Voters compute encrypted ballots and GPZKP validity proofs client-side and post them to an append-only \emph{Bulletin Board} for verification.\\
+\textbf{Quality Attributes \& Scope:} Driven by \emph{Modifiability \& Configurability} (new voting modes without code changes), \emph{Decoupling} (isolating the black-box GPZKP primitive behind an Adapter), and \emph{Auditability}. \emph{Out of Scope:} Cryptographic performance tuning, new ZKP primitives, Benaloh challenges.
 
 % ---------------------------------------------------------------------------
 \pibapart{Benefits}
-% What improves if the idea works, and how would you show it?
-% Link each benefit back to the problem.
 \begin{itemize}
-  \item \todo{Benefit 1 -- addresses \ldots; demonstrated by \ldots}
-  \item \todo{Benefit 2 -- addresses \ldots; demonstrated by \ldots}
+  \item \textbf{No-Code Ballot Expressiveness} --- addresses the rigid formats of \emph{Helios}/\emph{Belenios} and missing implementations of \emph{Kryvos}/\emph{Ordinos}; demonstrated by configuring and compiling Plurality, Ranked-Choice, and Quadratic Voting in the GUI without code changes.
+  \item \textbf{Survey Usability with Public Auditability} --- addresses \emph{LimeSurvey}'s black-box trust model; demonstrated by posting encrypted ballots and validity proofs to the Bulletin Board.
+  \item \textbf{Cryptographic Agnosticism \& Isolation} --- addresses tight coupling to experimental cryptography; demonstrated by swapping the GPZKP adapter between a mock and the real primitive.
 \end{itemize}
 
 % ---------------------------------------------------------------------------
 \pibapart{Action}
-% What will you build and evaluate, in which steps, within 3 months?
-% Mark the minimum deliverable and keep some buffer.
 \begin{enumerate}
-  \item ...
-  \item ...
+  \item \textbf{Requirements \& Domain Models (27.11.\ \& 11.12.2026):} Elicit requirements (27.11.) and model the domain and declarative \emph{Election-as-Code} grammar for ballots and budgets (11.12.).
+  \item \textbf{Architecture Design (08.01.2027):} Specify component boundaries, the three-target Compiler Pipeline, Bulletin Board protocol, and Voting Authority verification workflow.
+  \item \textbf{Prototype \& Evaluation (22.01.--05.02.2027):} Build the \emph{Minimum Deliverable} (Studio GUI, Compiler, Voter Client, Bulletin Board, Voting Authority) and evaluate modifiability.
 \end{enumerate}
-\todo{Required technologies, data, and infrastructure; team split.}
+\textbf{Tech \& Team Split (6):} Java 21/Spring Boot, TypeScript, PostgreSQL, Docker: (1)~\emph{Studio GUI}, (2)~\emph{DSL/Validator}, (3)~\emph{Compiler}, (4)~\emph{Voter/Prover Adapter}, (5)~\emph{Bulletin Board}, (6)~\emph{Voting Authority}.
 
 % ---------------------------------------------------------------------------
 \vfill
-{\small\textbf{AI usage statement.} \todo{Which AI tools and models did you
-use, and for what (e.g.\ brainstorming, rephrasing)? Write ``None'' if you
-did not use AI.}}
+{\small\textbf{Prior work disclaimer.} One member worked on GPZKP ballot-validity primitives in their Bachelor's thesis; to avoid conflict of interest, it is used strictly as a black-box dependency without runtime guarantees.\\
+\textbf{AI usage statement.} Google Gemini was used to brainstorm the architecture and condense the PIBA text.}
 
 \end{document}
